@@ -1,1 +1,131 @@
 
+
+package Analizadores;
+
+//importaciones si fuese necesario
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import proyecto1.Principal;
+import Errores.Errores;
+import Objetos.Simbolo;
+
+
+//codigo de la clase parser
+parser code 
+{:
+    public void syntax_error(Symbol s){
+        System.out.println("Error Sintactico Recuperable");
+        Errores nuevo = new Errores("Error Sintactico Recuperable", s.value.toString(), s.right+1, s.left+1);
+        Principal.ListaErrores.add(nuevo);
+    }
+
+    public void unrecovered_syntax_error(Symbol s){
+        System.out.println("Error Sintactico no recuperable");
+        Errores nuevo = new Errores("Error Sintactico no recuperable", s.value.toString(), s.right+1, s.left+1);
+        Principal.ListaErrores.add(nuevo);
+    }
+:}
+
+action code
+{:
+    String codigoUsr="";
+:}
+
+terminal DosPuntos, menor, mayor, guion, PuntoComa, AbreC, CierraC, arroba, Coma, AbreP, CierraP, Igual, Comillas;
+terminal Program, endProgram, var, end, doubleee, charr, arr;
+terminal SUM, RES, MUL, DIV, MOD, Media, Mediana, Moda, varianza, max, min, Console, print;
+terminal column, exec, graphBar, graphPie, graphLine, Histogram, values, label, titulo, ejeX, ejeY, tituloX, tituloY;
+terminal cadena, doublee, id;
+
+nonterminal String INICIO;
+nonterminal Imprimir, Operaciones;
+nonterminal DeclaracionDou, DeclaracionCha, DeclaracionAr, TipoAr, TipoArD, TipoArC;
+nonterminal ImpresionP, TipoImpresionP;
+nonterminal GraphBar, VariosBar, TipoArDB, TipoArCB;
+nonterminal GraphPie;
+nonterminal TodoTipo;
+
+
+start with INICIO;
+
+INICIO ::= Program TodoTipo endProgram
+{:RESULT = codigoUsr; :} 
+;
+
+TodoTipo ::= DeclaracionDou TodoTipo
+          | DeclaracionDou
+          | DeclaracionCha TodoTipo
+          | DeclaracionCha
+          | DeclaracionAr TodoTipo
+          | DeclaracionAr
+          | ImpresionP TodoTipo
+          | ImpresionP
+          | GraphPie TodoTipo
+          | GraphPie 
+          | GraphBar TodoTipo
+          | GraphBar 
+          | Operaciones TodoTipo
+          | Operaciones
+;
+
+Operaciones ::= var DosPuntos doubleee DosPuntos DosPuntos id menor guion SUM AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("SUM",a,b); Principal.opera.add(op); :}
+             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion RES AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("RES",a,b); Principal.opera.add(op); :}
+             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion MUL AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("MUL",a,b); Principal.opera.add(op); :}
+             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion DIV AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("DIV",a,b); Principal.opera.add(op); :}
+             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion MOD AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("MOD",a,b); Principal.opera.add(op); :}
+; 
+
+DeclaracionDou ::= var DosPuntos doubleee DosPuntos DosPuntos id:a menor guion doublee:e end PuntoComa
+{: System.out.println(e);:}
+;
+
+DeclaracionCha ::= var DosPuntos charr AbreC CierraC DosPuntos DosPuntos id:a menor guion cadena:c end PuntoComa
+{: System.out.println(c);:}
+;
+
+DeclaracionAr ::= arr DosPuntos TipoAr end PuntoComa
+;
+
+TipoAr ::= doubleee DosPuntos DosPuntos arroba id menor guion AbreC TipoArD CierraC 
+        | charr AbreC CierraC DosPuntos DosPuntos arroba id menor guion AbreC TipoArC CierraC     
+;
+
+TipoArD ::= doublee:b Coma TipoArD
+         | doublee:b
+;
+
+TipoArC ::= cadena:b Coma TipoArC
+         | cadena:b
+;
+
+ImpresionP ::= Console DosPuntos DosPuntos print Igual TipoImpresionP end PuntoComa
+;
+
+TipoImpresionP ::= doublee:b Coma TipoImpresionP {: Principal.Prints.add(b);:}
+                 | cadena:b Coma TipoImpresionP  {: Principal.Prints.add(b);:}  
+                 | id:b Coma TipoImpresionP      {: Principal.Prints.add(b);:}  
+                 | doublee:b                     {: Principal.Prints.add(b);:} 
+                 | cadena:b                      {: Principal.Prints.add(b);:}
+                 | id:b                          {: Principal.Prints.add(b);:}
+;
+
+GraphBar ::= graphBar AbreP VariosBar exec graphBar end PuntoComa CierraP end PuntoComa
+;
+
+VariosBar ::= titulo DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
+            | ejeX DosPuntos DosPuntos charr AbreC CierraC Igual TipoArCB end PuntoComa
+            | ejeY DosPuntos DosPuntos doubleee AbreC CierraC Igual TipoArDB end PuntoComa
+            | tituloX DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
+            | tituloY DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
+;
+
+TipoArDB ::= doublee:b Coma TipoArD
+         | doublee:b
+;
+
+TipoArCB ::= cadena:b Coma TipoArC
+         | cadena:b
+;
+
+

@@ -4,27 +4,36 @@
  */
 package proyecto;
 
-import java.awt.BorderLayout;
+import Analizadores.parser;
+import Analizadores.scanner;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import Errores.Errores;
+import Objetos.Simbolo;
+import Objetos.Token;
 
 /**
  *
  * @author jeach
  */
 public class Principal extends javax.swing.JFrame {
-
+    
+    public static ArrayList<Errores> ListaErrores = new ArrayList<>();
+    public static ArrayList<Token> ListaTokens = new ArrayList<>();
+    public static ArrayList<Simbolo> ListaSimbolos = new ArrayList<>();
+    
+    public static ArrayList<String> Prints = new ArrayList<>();
     /**
      * Creates new form Principal
      */
@@ -361,6 +370,7 @@ public class Principal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Principal().setVisible(true);
+                
             }
         });
     }

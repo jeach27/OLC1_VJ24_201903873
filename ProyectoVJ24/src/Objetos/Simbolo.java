@@ -8,33 +8,43 @@ package Objetos;
  *
  * @author jeach
  */
-public class Token {
-    String Lexema;
+public class Simbolo {
+    String Nombre;
     String tipo;
+    String Valor;
     int fila;
     int columna;
     
-     public Token(String Lexema, String tipo, int fila, int columna) {
-        this.Lexema = Lexema;
+    public Simbolo(String nombre, String tipo, String valor ,int fila,int columna) {
+        this.Nombre = nombre;
         this.tipo = tipo;
+        this.Valor = valor;
         this.fila = fila;
         this.columna = columna;
     }
-
-    public String getLexema() {
-        return Lexema;
+    
+    public String getNombre() {
+        return Nombre;
     }
 
-    public void setLexema(String Lexema) {
-        this.Lexema = Lexema;
+    public void setNombre(String nombre) {
+        this.Nombre = nombre;
     }
-
+    
     public String getTipo() {
         return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    
+    public String getValor() {
+        return Valor;
+    }
+
+    public void setValor(String valor) {
+        this.Valor = valor;
     }
 
     public int getFila() {
@@ -52,5 +62,4 @@ public class Token {
     public void setColumna(int columna) {
         this.columna = columna;
     }
-    
 }
