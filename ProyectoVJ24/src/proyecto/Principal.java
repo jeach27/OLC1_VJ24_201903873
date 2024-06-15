@@ -330,7 +330,7 @@ public class Principal extends javax.swing.JFrame {
                 
                 scanner sintac = new scanner(new BufferedReader(new StringReader(selectedTextArea.getText())));
                 parser par = new parser(sintac);
-                par.parse();  
+                var result = par.parse();  
             }
   
         }catch(Exception e){

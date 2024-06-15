@@ -4,7 +4,7 @@
 
 //------> Paquetes,importaciones
 package Analizadores;
-import Errores.ErroresL;
+import Errores.Errores;
 import proyecto.Principal;
 import Objetos.Token;
 import java_cup.runtime.Symbol;
@@ -35,15 +35,14 @@ import javax.swing.JOptionPane;
 digito = [0-9]
 letra = [a-z]
 cadena = [\"][^\"\n]+[\"]
-entero = [-]? {digito}* 
-charr = [\'][^\'\n]+[\']
-doublee = [+-]? {digito}* [\.] {digito}+
+doublee = [+-]? {digito}+ [\.] {digito}+
 id = {letra}({letra}|{ digito }|_)*
+enteroo = [-]? {digito}+ 
+charr = [\'][^\'\n]+[\']
 
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
-
 
 comentariosimple    = "!" {InputCharacter}* {LineTerminator}?
 comentarioMulti =  "<!" [^/] ~"!>"
@@ -97,13 +96,13 @@ EspaciosB = [\ \r\t\f\n]+
               System.out.println("Reconocio "+yytext()+" CierraP"); return new Symbol(sym.CierraP, yycolumn, yyline, yytext()); }
 "&&"         { Token nuevo = new Token(yytext(), "AND", yyline,yycolumn);
               Principal.ListaTokens.add(nuevo);
-              System.out.println("Reconocio "+yytext()+" AND"); return new Symbol(sym.AND, yycolumn, yyline, yytext()); }
+              System.out.println("Reconocio "+yytext()+" AND"); return new Symbol(sym.SymAND, yycolumn, yyline, yytext()); }
 "||"         { Token nuevo = new Token(yytext(), "OR", yyline,yycolumn);
               Principal.ListaTokens.add(nuevo);
-              System.out.println("Reconocio "+yytext()+" OR"); return new Symbol(sym.OR, yycolumn, yyline, yytext()); }
+              System.out.println("Reconocio "+yytext()+" OR"); return new Symbol(sym.SymOR, yycolumn, yyline, yytext()); }
 "!"          { Token nuevo = new Token(yytext(), "NOT", yyline,yycolumn);
               Principal.ListaTokens.add(nuevo);
-              System.out.println("Reconocio "+yytext()+" NOT"); return new Symbol(sym.NOT, yycolumn, yyline, yytext()); }
+              System.out.println("Reconocio "+yytext()+" NOT"); return new Symbol(sym.SymNOT, yycolumn, yyline, yytext()); }
 "/"          { Token nuevo = new Token(yytext(), "Diagonal", yyline,yycolumn);
               Principal.ListaTokens.add(nuevo);
               System.out.println("Reconocio "+yytext()+" Diagonal"); return new Symbol(sym.Diagonal, yycolumn, yyline, yytext()); }
@@ -118,94 +117,94 @@ EspaciosB = [\ \r\t\f\n]+
 
 "Var"           { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" Var"); return new Symbol(sym.Var, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" Var"); return new Symbol(sym.PRvar, yycolumn, yyline, yytext()); }
 "Const"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" Const"); return new Symbol(sym.const, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" Const"); return new Symbol(sym.PRconst, yycolumn, yyline, yytext()); }
 "Int"           { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" int"); return new Symbol(sym.int, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" int"); return new Symbol(sym.PRint, yycolumn, yyline, yytext()); }
 "Double"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" double"); return new Symbol(sym.double, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" double"); return new Symbol(sym.PRdouble, yycolumn, yyline, yytext()); }
 "Bool"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" bool"); return new Symbol(sym.bool, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" bool"); return new Symbol(sym.PRbool, yycolumn, yyline, yytext()); }
 "True"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" true"); return new Symbol(sym.true, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" true"); return new Symbol(sym.PRtrue, yycolumn, yyline, yytext()); }
 "False"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" false"); return new Symbol(sym.false, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" false"); return new Symbol(sym.PRfalse, yycolumn, yyline, yytext()); }
 "Char"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" char"); return new Symbol(sym.char, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" char"); return new Symbol(sym.PRchar, yycolumn, yyline, yytext()); }
 "String"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" string"); return new Symbol(sym.string, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" string"); return new Symbol(sym.PRstring, yycolumn, yyline, yytext()); }
 "If"            { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+"if"); return new Symbol(sym.if, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+"if"); return new Symbol(sym.PRif, yycolumn, yyline, yytext()); }
 "Else"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+"else"); return new Symbol(sym.else, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+"else"); return new Symbol(sym.PRelse, yycolumn, yyline, yytext()); }
 "Match"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" match"); return new Symbol(sym.match, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" match"); return new Symbol(sym.PRmatch, yycolumn, yyline, yytext()); }
 "While"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" while"); return new Symbol(sym.while, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" while"); return new Symbol(sym.PRwhile, yycolumn, yyline, yytext()); }
 "For"           { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" for"); return new Symbol(sym.for, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" for"); return new Symbol(sym.PRfor, yycolumn, yyline, yytext()); }
 "Do"            { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" do"); return new Symbol(sym.do, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" do"); return new Symbol(sym.PRdo, yycolumn, yyline, yytext()); }
 "Break"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" break"); return new Symbol(sym.break, yycolumn, yyline, yytext()); }
-"Continue"       { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
+                System.out.println("Reconocio "+yytext()+" break"); return new Symbol(sym.PRbreak, yycolumn, yyline, yytext()); }
+"Continue"      { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" continue"); return new Symbol(sym.continue, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" continue"); return new Symbol(sym.PRcontinue, yycolumn, yyline, yytext()); }
 "Return"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" return"); return new Symbol(sym.return, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" return"); return new Symbol(sym.PRreturn, yycolumn, yyline, yytext()); }
 "New"           { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" new"); return new Symbol(sym.new, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" new"); return new Symbol(sym.PRnew, yycolumn, yyline, yytext()); }
 "List"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" list"); return new Symbol(sym.list, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" list"); return new Symbol(sym.PRlist, yycolumn, yyline, yytext()); }
 "Append"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" append"); return new Symbol(sym.append, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" append"); return new Symbol(sym.PRappend, yycolumn, yyline, yytext()); }
 "Remove"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" remove"); return new Symbol(sym.remove, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" remove"); return new Symbol(sym.PRremove, yycolumn, yyline, yytext()); }
 "Struct"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" struct"); return new Symbol(sym.struct, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" struct"); return new Symbol(sym.PRstruct, yycolumn, yyline, yytext()); }
 "Void"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" void"); return new Symbol(sym.void, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" void"); return new Symbol(sym.PRvoid, yycolumn, yyline, yytext()); }
 "Println"       { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" println"); return new Symbol(sym.println, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" println"); return new Symbol(sym.PRprintln, yycolumn, yyline, yytext()); }
 "Round"         { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" round"); return new Symbol(sym.round, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" round"); return new Symbol(sym.PRround, yycolumn, yyline, yytext()); }
 "Length"        { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" length"); return new Symbol(sym.length, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" length"); return new Symbol(sym.PRlength, yycolumn, yyline, yytext()); }
 "toString"      { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" toString"); return new Symbol(sym.toString, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" toString"); return new Symbol(sym.PRtoString, yycolumn, yyline, yytext()); }
 "find"          { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" find"); return new Symbol(sym.find, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" find"); return new Symbol(sym.PRfind, yycolumn, yyline, yytext()); }
 "start_with"    { Token nuevo = new Token(yytext(), "Palabra Reservada", yyline,yycolumn);
                 Principal.ListaTokens.add(nuevo);
-                System.out.println("Reconocio "+yytext()+" startWith"); return new Symbol(sym.startWith, yycolumn, yyline, yytext()); }
+                System.out.println("Reconocio "+yytext()+" startWith"); return new Symbol(sym.PRstartWith, yycolumn, yyline, yytext()); }
 
 //-------> Simbolos ER
 
@@ -218,7 +217,7 @@ EspaciosB = [\ \r\t\f\n]+
 {id}         { Token nuevo = new Token(yytext(), "Identificador", yyline,yycolumn);
                Principal.ListaTokens.add(nuevo);
                System.out.println("Reconocio "+yytext()+" id"); return new Symbol(sym.id, yycolumn, yyline, yytext()); }
-{entero}     { Token nuevo = new Token(yytext(), "Entero", yyline,yycolumn);
+{enteroo}     { Token nuevo = new Token(yytext(), "Entero", yyline,yycolumn);
                Principal.ListaTokens.add(nuevo);
                System.out.println("Reconocio "+yytext()+" Entero"); return new Symbol(sym.entero, yycolumn, yyline, yytext()); }
 {charr}      { Token nuevo = new Token(yytext(), "character", yyline,yycolumn);
@@ -235,7 +234,7 @@ EspaciosB = [\ \r\t\f\n]+
 {EspaciosB}             {/* Espacios en blanco, se ignoran */}
 
 //------> Errores Lexicos
-.                       { Errores err = new ErroresL("Lexico",yytext(), yyline, yycolumn); 
+.                       { Errores err = new Errores("Lexico",yytext(), yyline, yycolumn); 
                           Principal.ListaErrores.add(err);
                           err.SendError();}
 

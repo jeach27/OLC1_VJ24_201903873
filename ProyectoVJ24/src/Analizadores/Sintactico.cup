@@ -6,9 +6,12 @@ package Analizadores;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
-import proyecto1.Principal;
+import proyecto.Principal;
+
 import Errores.Errores;
+
 import Objetos.Simbolo;
+import Objetos.Instrucciones;
 
 
 //codigo de la clase parser
@@ -32,100 +35,39 @@ action code
     String codigoUsr="";
 :}
 
-terminal DosPuntos, menor, mayor, guion, PuntoComa, AbreC, CierraC, arroba, Coma, AbreP, CierraP, Igual, Comillas;
-terminal Program, endProgram, var, end, doubleee, charr, arr;
-terminal SUM, RES, MUL, DIV, MOD, Media, Mediana, Moda, varianza, max, min, Console, print;
-terminal column, exec, graphBar, graphPie, graphLine, Histogram, values, label, titulo, ejeX, ejeY, tituloX, tituloY;
-terminal cadena, doublee, id;
+terminal DosPuntos, Igual, menor, mayor, Resta, PuntoComa, AbreC, CierraC, acentoPotencia, Porcentaje, AbreP, CierraP, SymAND, SymOR, SymNOT, Diagonal, Suma, Asterisco;
+terminal PRvar, PRconst, PRint, PRdouble, PRbool, PRtrue, PRfalse, PRchar, PRstring, PRif, PRelse, PRmatch, PRwhile, PRfor, PRdo, PRbreak; 
+terminal PRcontinue, PRreturn, PRnew, PRlist, PRappend, PRremove, PRstruct, PRvoid, PRprintln, PRround, PRlength, PRtoString, PRfind, PRstartWith;
+terminal cadena, doublee, id, character, entero;
 
 nonterminal String INICIO;
-nonterminal Imprimir, Operaciones;
-nonterminal DeclaracionDou, DeclaracionCha, DeclaracionAr, TipoAr, TipoArD, TipoArC;
-nonterminal ImpresionP, TipoImpresionP;
-nonterminal GraphBar, VariosBar, TipoArDB, TipoArCB;
-nonterminal GraphPie;
-nonterminal TodoTipo;
+nonterminal INSTRUCCIONES, INSTRUCCION;
+nonterminal IMPRESION, DECLARACION, ASIGNACION;
+nonterminal DECLARACIONINT, DECLARACIONDOU, DECLARACIONBOOL, DECLARACIONCHAR, DECLARACIONSTRING;
 
 
 start with INICIO;
 
-INICIO ::= Program TodoTipo endProgram
+INICIO ::= INSTRUCCIONES
 {:RESULT = codigoUsr; :} 
 ;
 
-TodoTipo ::= DeclaracionDou TodoTipo
-          | DeclaracionDou
-          | DeclaracionCha TodoTipo
-          | DeclaracionCha
-          | DeclaracionAr TodoTipo
-          | DeclaracionAr
-          | ImpresionP TodoTipo
-          | ImpresionP
-          | GraphPie TodoTipo
-          | GraphPie 
-          | GraphBar TodoTipo
-          | GraphBar 
-          | Operaciones TodoTipo
-          | Operaciones
+INSTRUCCIONES ::= INSTRUCCION:a INSTRUCCIONES     {: RESULT = a; :}
+                | INSTRUCCION:a                     {: RESULT = a; :}
 ;
 
-Operaciones ::= var DosPuntos doubleee DosPuntos DosPuntos id menor guion SUM AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("SUM",a,b); Principal.opera.add(op); :}
-             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion RES AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("RES",a,b); Principal.opera.add(op); :}
-             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion MUL AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("MUL",a,b); Principal.opera.add(op); :}
-             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion DIV AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("DIV",a,b); Principal.opera.add(op); :}
-             | var DosPuntos doubleee DosPuntos DosPuntos id menor guion MOD AbreP doublee:a Coma doublee:b CierraP end PuntoComa {: Operaciones op = new Operaciones("MOD",a,b); Principal.opera.add(op); :}
-; 
-
-DeclaracionDou ::= var DosPuntos doubleee DosPuntos DosPuntos id:a menor guion doublee:e end PuntoComa
-{: System.out.println(e);:}
+INSTRUCCION ::= IMPRESION: a        {:   RESULT=a;   :}
+              | DECLARACION:a       {:   RESULT=a;   :}
+              | ASIGNACION:a        {:   RESULT=a;   :}
 ;
 
-DeclaracionCha ::= var DosPuntos charr AbreC CierraC DosPuntos DosPuntos id:a menor guion cadena:c end PuntoComa
-{: System.out.println(c);:}
+DECLARACION ::= DECLARACIONINT:a    {:   RESULT=a;   :}
+              | DECLARACIONDOU:a    {:   RESULT=a;   :}
+              | DECLARACIONBOOL:a   {:   RESULT=a;   :}
+              | DECLARACIONCHAR:a   {:   RESULT=a;   :}
+              | DECLARACIONSTRING:a {:   RESULT=a;   :}
 ;
 
-DeclaracionAr ::= arr DosPuntos TipoAr end PuntoComa
+DECLARACIONINT ::= PRvar id:a DosPuntos PRint:b Igual entero:c PuntoComa
+{: System.out.println("la variable" + a + "es: " + c); :}
 ;
-
-TipoAr ::= doubleee DosPuntos DosPuntos arroba id menor guion AbreC TipoArD CierraC 
-        | charr AbreC CierraC DosPuntos DosPuntos arroba id menor guion AbreC TipoArC CierraC     
-;
-
-TipoArD ::= doublee:b Coma TipoArD
-         | doublee:b
-;
-
-TipoArC ::= cadena:b Coma TipoArC
-         | cadena:b
-;
-
-ImpresionP ::= Console DosPuntos DosPuntos print Igual TipoImpresionP end PuntoComa
-;
-
-TipoImpresionP ::= doublee:b Coma TipoImpresionP {: Principal.Prints.add(b);:}
-                 | cadena:b Coma TipoImpresionP  {: Principal.Prints.add(b);:}  
-                 | id:b Coma TipoImpresionP      {: Principal.Prints.add(b);:}  
-                 | doublee:b                     {: Principal.Prints.add(b);:} 
-                 | cadena:b                      {: Principal.Prints.add(b);:}
-                 | id:b                          {: Principal.Prints.add(b);:}
-;
-
-GraphBar ::= graphBar AbreP VariosBar exec graphBar end PuntoComa CierraP end PuntoComa
-;
-
-VariosBar ::= titulo DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
-            | ejeX DosPuntos DosPuntos charr AbreC CierraC Igual TipoArCB end PuntoComa
-            | ejeY DosPuntos DosPuntos doubleee AbreC CierraC Igual TipoArDB end PuntoComa
-            | tituloX DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
-            | tituloY DosPuntos DosPuntos charr AbreC CierraC Igual cadena:b end PuntoComa
-;
-
-TipoArDB ::= doublee:b Coma TipoArD
-         | doublee:b
-;
-
-TipoArCB ::= cadena:b Coma TipoArC
-         | cadena:b
-;
-
-

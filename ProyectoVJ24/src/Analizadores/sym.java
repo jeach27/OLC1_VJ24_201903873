@@ -8,109 +8,117 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PuntoComa = 6;
-  public static final int Coma = 10;
-  public static final int tituloY = 47;
-  public static final int Moda = 29;
-  public static final int tituloX = 46;
-  public static final int RES = 23;
-  public static final int doublee = 49;
-  public static final int doubleee = 19;
-  public static final int ejeY = 45;
-  public static final int ejeX = 44;
-  public static final int guion = 5;
-  public static final int end = 18;
-  public static final int arr = 21;
-  public static final int DIV = 25;
-  public static final int Console = 33;
-  public static final int AbreP = 11;
-  public static final int max = 31;
-  public static final int graphLine = 39;
-  public static final int menor = 3;
-  public static final int var = 17;
+  public static final int PRif = 29;
+  public static final int PRbreak = 35;
+  public static final int PRtrue = 25;
+  public static final int PuntoComa = 7;
+  public static final int PRdouble = 23;
+  public static final int PRvoid = 43;
+  public static final int acentoPotencia = 10;
+  public static final int PRwhile = 32;
+  public static final int doublee = 51;
+  public static final int Asterisco = 19;
+  public static final int PRprintln = 44;
+  public static final int PRappend = 40;
+  public static final int PRelse = 30;
+  public static final int PRvar = 20;
+  public static final int PRlist = 39;
+  public static final int PRfalse = 26;
+  public static final int PRreturn = 37;
+  public static final int PRround = 45;
+  public static final int AbreP = 12;
+  public static final int menor = 4;
+  public static final int Diagonal = 17;
+  public static final int PRint = 22;
   public static final int EOF = 0;
   public static final int DosPuntos = 2;
-  public static final int Media = 27;
+  public static final int PRconst = 21;
   public static final int error = 1;
-  public static final int MUL = 24;
-  public static final int mayor = 4;
-  public static final int exec = 36;
-  public static final int AbreC = 7;
-  public static final int endProgram = 16;
-  public static final int MOD = 26;
-  public static final int id = 50;
-  public static final int column = 35;
-  public static final int titulo = 43;
-  public static final int arroba = 9;
-  public static final int label = 42;
-  public static final int varianza = 30;
-  public static final int CierraP = 12;
-  public static final int SUM = 22;
-  public static final int graphPie = 38;
-  public static final int print = 34;
-  public static final int Mediana = 28;
-  public static final int Program = 15;
-  public static final int Histogram = 40;
-  public static final int min = 32;
-  public static final int values = 41;
-  public static final int graphBar = 37;
-  public static final int Igual = 13;
-  public static final int charr = 20;
-  public static final int CierraC = 8;
-  public static final int cadena = 48;
-  public static final int Comillas = 14;
+  public static final int PRfor = 33;
+  public static final int PRdo = 34;
+  public static final int mayor = 5;
+  public static final int entero = 54;
+  public static final int AbreC = 8;
+  public static final int PRchar = 27;
+  public static final int PRfind = 48;
+  public static final int PRtoString = 47;
+  public static final int id = 52;
+  public static final int PRmatch = 31;
+  public static final int SymOR = 15;
+  public static final int PRcontinue = 36;
+  public static final int PRstring = 28;
+  public static final int SymAND = 14;
+  public static final int SymNOT = 16;
+  public static final int PRstruct = 42;
+  public static final int PRnew = 38;
+  public static final int Resta = 6;
+  public static final int CierraP = 13;
+  public static final int Porcentaje = 11;
+  public static final int PRlength = 46;
+  public static final int PRbool = 24;
+  public static final int character = 53;
+  public static final int Suma = 18;
+  public static final int Igual = 3;
+  public static final int CierraC = 9;
+  public static final int PRstartWith = 49;
+  public static final int cadena = 50;
+  public static final int PRremove = 41;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "DosPuntos",
+  "Igual",
   "menor",
   "mayor",
-  "guion",
+  "Resta",
   "PuntoComa",
   "AbreC",
   "CierraC",
-  "arroba",
-  "Coma",
+  "acentoPotencia",
+  "Porcentaje",
   "AbreP",
   "CierraP",
-  "Igual",
-  "Comillas",
-  "Program",
-  "endProgram",
-  "var",
-  "end",
-  "doubleee",
-  "charr",
-  "arr",
-  "SUM",
-  "RES",
-  "MUL",
-  "DIV",
-  "MOD",
-  "Media",
-  "Mediana",
-  "Moda",
-  "varianza",
-  "max",
-  "min",
-  "Console",
-  "print",
-  "column",
-  "exec",
-  "graphBar",
-  "graphPie",
-  "graphLine",
-  "Histogram",
-  "values",
-  "label",
-  "titulo",
-  "ejeX",
-  "ejeY",
-  "tituloX",
-  "tituloY",
+  "SymAND",
+  "SymOR",
+  "SymNOT",
+  "Diagonal",
+  "Suma",
+  "Asterisco",
+  "PRvar",
+  "PRconst",
+  "PRint",
+  "PRdouble",
+  "PRbool",
+  "PRtrue",
+  "PRfalse",
+  "PRchar",
+  "PRstring",
+  "PRif",
+  "PRelse",
+  "PRmatch",
+  "PRwhile",
+  "PRfor",
+  "PRdo",
+  "PRbreak",
+  "PRcontinue",
+  "PRreturn",
+  "PRnew",
+  "PRlist",
+  "PRappend",
+  "PRremove",
+  "PRstruct",
+  "PRvoid",
+  "PRprintln",
+  "PRround",
+  "PRlength",
+  "PRtoString",
+  "PRfind",
+  "PRstartWith",
   "cadena",
   "doublee",
-  "id"
+  "id",
+  "character",
+  "entero"
   };
 }
 
