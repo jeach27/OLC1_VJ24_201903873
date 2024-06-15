@@ -236,6 +236,6 @@ EspaciosB = [\ \r\t\f\n]+
 //------> Errores Lexicos
 .                       { Errores err = new Errores("Lexico",yytext(), yyline, yycolumn); 
                           Principal.ListaErrores.add(err);
-                          err.SendError();}
+                        }
 
 

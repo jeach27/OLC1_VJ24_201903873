@@ -4,8 +4,6 @@
  */
 package Objetos;
 
-
-
 import Errores.Errores;
 import java.util.LinkedList;
 /**
@@ -15,11 +13,13 @@ import java.util.LinkedList;
 public class Arbol {
     private LinkedList<Instrucciones> instrucciones;
     private String consola;
+    private tablaSimbolos tablaGlobal;
     public LinkedList<Errores> errores;
 
     public Arbol(LinkedList<Instrucciones> instrucciones) {
         this.instrucciones = instrucciones;
         this.consola = "";
+        this.tablaGlobal = new tablaSimbolos();
         this.errores = new LinkedList<>();
     }
 
@@ -37,6 +37,14 @@ public class Arbol {
 
     public void setConsola(String consola) {
         this.consola = consola;
+    }
+
+    public tablaSimbolos getTablaGlobal() {
+        return tablaGlobal;
+    }
+
+    public void setTablaGlobal(tablaSimbolos tablaGlobal) {
+        this.tablaGlobal = tablaGlobal;
     }
 
     public LinkedList<Errores> getErrores() {

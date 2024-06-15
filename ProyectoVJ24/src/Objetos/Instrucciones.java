@@ -8,15 +8,17 @@ package Objetos;
  *
  * @author jeach
  */
-public class Instrucciones {
+public abstract class Instrucciones {
  
-    public String tipo;
+    public Tipo tipo;
     public int linea;
     public int col;
 
-    public Instrucciones(String tipo, int linea, int col) {
+    public Instrucciones(Tipo tipo, int linea, int col) {
         this.tipo = tipo;
         this.linea = linea;
         this.col = col;
     }
+    
+    public abstract Object interpretar(Arbol arbol, tablaSimbolos tabla);
 }

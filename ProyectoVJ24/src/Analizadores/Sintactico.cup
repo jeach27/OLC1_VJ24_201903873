@@ -6,17 +6,21 @@ package Analizadores;
 
 import java_cup.runtime.Symbol;
 import java.util.LinkedList;
+
 import proyecto.Principal;
-
 import Errores.Errores;
-
-import Objetos.Simbolo;
-import Objetos.Instrucciones;
+import Objetos.*;
+import Expresiones.*;
+import Instruccions.*;
 
 
 //codigo de la clase parser
 parser code 
 {:
+    
+    scanner s;
+    parser(scanner s){this.s = s;}
+
     public void syntax_error(Symbol s){
         System.out.println("Error Sintactico Recuperable");
         Errores nuevo = new Errores("Error Sintactico Recuperable", s.value.toString(), s.right+1, s.left+1);
@@ -32,42 +36,73 @@ parser code
 
 action code
 {:
-    String codigoUsr="";
 :}
 
 terminal DosPuntos, Igual, menor, mayor, Resta, PuntoComa, AbreC, CierraC, acentoPotencia, Porcentaje, AbreP, CierraP, SymAND, SymOR, SymNOT, Diagonal, Suma, Asterisco;
+terminal potencia, negacionUnario, igualacion, Diferencia, menorIgual, mayorIgual;
 terminal PRvar, PRconst, PRint, PRdouble, PRbool, PRtrue, PRfalse, PRchar, PRstring, PRif, PRelse, PRmatch, PRwhile, PRfor, PRdo, PRbreak; 
 terminal PRcontinue, PRreturn, PRnew, PRlist, PRappend, PRremove, PRstruct, PRvoid, PRprintln, PRround, PRlength, PRtoString, PRfind, PRstartWith;
 terminal cadena, doublee, id, character, entero;
 
-nonterminal String INICIO;
-nonterminal INSTRUCCIONES, INSTRUCCION;
-nonterminal IMPRESION, DECLARACION, ASIGNACION;
-nonterminal DECLARACIONINT, DECLARACIONDOU, DECLARACIONBOOL, DECLARACIONCHAR, DECLARACIONSTRING;
+nonterminal LinkedList<Instrucciones> INICIO, INSTRUCCIONES;
+nonterminal Instrucciones INSTRUCCION;
+nonterminal Instrucciones IMPRESION, DECLARACION, ASIGNACION;
+nonterminal Instrucciones BREAKK;
+nonterminal Tipo TIPOS;
 
+nonterminal Instrucciones EXPRESION;
+
+precedence right negacionUnario;
+precedence potencia;
+precendece left Asterisco, Diagonal;
+precedence left Suma, Resta;
+precedence left igualacion, Diferencia, menor, mayor, menorIgual, mayorIgual;
+precedence right SymNOT;
+precedence left acentoPotencia;
+precedence left SymAND;
+precedence left SymOR;
 
 start with INICIO;
 
-INICIO ::= INSTRUCCIONES
-{:RESULT = codigoUsr; :} 
+INICIO ::= INSTRUCCIONES:a      {:   RESULT = a;   :}
 ;
 
-INSTRUCCIONES ::= INSTRUCCION:a INSTRUCCIONES     {: RESULT = a; :}
-                | INSTRUCCION:a                     {: RESULT = a; :}
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b     {: RESULT = a; RESULT.add(b); :}
+                | INSTRUCCION:a                   {: RESULT = new LinkedList<>(); RESULT.add(a); :}
 ;
 
 INSTRUCCION ::= IMPRESION: a        {:   RESULT=a;   :}
               | DECLARACION:a       {:   RESULT=a;   :}
               | ASIGNACION:a        {:   RESULT=a;   :}
+              | BREAKK:a            {:   RESULT=a;   :}
+              | error PuntoComa
 ;
 
-DECLARACION ::= DECLARACIONINT:a    {:   RESULT=a;   :}
-              | DECLARACIONDOU:a    {:   RESULT=a;   :}
-              | DECLARACIONBOOL:a   {:   RESULT=a;   :}
-              | DECLARACIONCHAR:a   {:   RESULT=a;   :}
-              | DECLARACIONSTRING:a {:   RESULT=a;   :}
+IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {:   RESULT = new Print(a, aleft, aright);   :}
 ;
 
-DECLARACIONINT ::= PRvar id:a DosPuntos PRint:b Igual entero:c PuntoComa
-{: System.out.println("la variable" + a + "es: " + c); :}
+DECLARACION ::= TIPOS:a ID:b IGUAL EXPRESION:c FINCADENA    {:   RESULT = new Declaracion(b, c, a, aleft, aright);   :}
+;
+
+ASIGNACION ::= ID:a IGUAL EXPRESION:b FINCADENA  {:   RESULT=new AsignacionVar(a, b, aleft, aright);  :}
+;
+
+TIPOS ::= PRint       {:   RESULT=new Tipo(tipoDato.ENTERO);   :}
+        | PRdouble    {:   RESULT=new Tipo(tipoDato.DECIMAL);   :}
+        | PRstring    {:   RESULT=new Tipo(tipoDato.CADENA);   :}
+        | PRbool      {:   RESULT=new Tipo(tipoDato.BOOLEANO);   :}
+        | PRchar      {:   RESULT=new Tipo(tipoDato.CARACTER);   :}
+;
+
+EXPRESION ::= MENOS EXPRESION:a             {:   RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright);   :} %prec UMENOS
+            | EXPRESION:a MAS EXPRESION:b   {:   RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright);   :}
+            | EXPRESION:a IGUAL IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}%prec EQUALS
+            | EXPRESION:a MENOR EXPRESION:b     {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MENOR, aleft, aright);    :}
+            | ENTERO:a      {:   RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright );   :}
+            | DECIMAL:a     {:   RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright );   :}
+            | CADENA:a      {:   RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright );   :}
+            | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
+            | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
+            | ID:a          {:   RESULT = new AccesoVar(a, aleft, aright);   :}
+            | PAR1 EXPRESION:a PAR2     {:   RESULT = a;   :}
 ;

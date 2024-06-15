@@ -69,6 +69,7 @@ public class Principal extends javax.swing.JFrame {
         ArchivoGuardar = new javax.swing.JMenuItem();
         MenuPestañas = new javax.swing.JMenu();
         MenuEjecutar = new javax.swing.JMenu();
+        BotonEjecutar = new javax.swing.JMenuItem();
         MenuReportes = new javax.swing.JMenu();
         ReporteErrores = new javax.swing.JMenuItem();
         ReporteAST = new javax.swing.JMenuItem();
@@ -180,6 +181,15 @@ public class Principal extends javax.swing.JFrame {
                 MenuEjecutarActionPerformed(evt);
             }
         });
+
+        BotonEjecutar.setText("EJECUTAR");
+        BotonEjecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonEjecutarActionPerformed(evt);
+            }
+        });
+        MenuEjecutar.add(BotonEjecutar);
+
         jMenuBar2.add(MenuEjecutar);
 
         MenuReportes.setText("Reportes");
@@ -321,9 +331,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_ArchivoAbrirActionPerformed
 
     private void MenuEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuEjecutarActionPerformed
+        
+       
+    }//GEN-LAST:event_MenuEjecutarActionPerformed
+
+    private void BotonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEjecutarActionPerformed
         try{
             Component selectedComponent = PanelPestañas.getSelectedComponent();
-
+            System.out.println("HOLA");
             // Check if the selected component is a JPanel
             if (selectedComponent instanceof JScrollPane) {
                 JTextArea selectedTextArea = (JTextArea) ((JScrollPane) selectedComponent).getViewport().getView();
@@ -336,8 +351,7 @@ public class Principal extends javax.swing.JFrame {
         }catch(Exception e){
             System.out.println("Error en parser");
         }
-       
-    }//GEN-LAST:event_MenuEjecutarActionPerformed
+    }//GEN-LAST:event_BotonEjecutarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,6 +393,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem ArchivoAbrir;
     private javax.swing.JMenuItem ArchivoGuardar;
     private javax.swing.JMenuItem ArchivoNuevo;
+    private javax.swing.JMenuItem BotonEjecutar;
     private javax.swing.JTextArea Consola;
     private javax.swing.JMenu MenuArchivo;
     private javax.swing.JMenu MenuEjecutar;

@@ -9,57 +9,44 @@ package Objetos;
  * @author jeach
  */
 public class Simbolo {
-    String Nombre;
-    String tipo;
-    String Valor;
-    int fila;
-    int columna;
     
-    public Simbolo(String nombre, String tipo, String valor ,int fila,int columna) {
-        this.Nombre = nombre;
+    private Tipo tipo;
+    private String id;
+    private Object valor;
+
+    public Simbolo(Tipo tipo, String id) {
         this.tipo = tipo;
-        this.Valor = valor;
-        this.fila = fila;
-        this.columna = columna;
-    }
-    
-    public String getNombre() {
-        return Nombre;
+        this.id = id;
     }
 
-    public void setNombre(String nombre) {
-        this.Nombre = nombre;
+    public Simbolo(Tipo tipo, String id, Object valor) {
+        this.tipo = tipo;
+        this.id = id;
+        this.valor = valor;
     }
-    
-    public String getTipo() {
+
+    public Tipo getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(Tipo tipo) {
         this.tipo = tipo;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Object getValor() {
+        return valor;
+    }
+
+    public void setValor(Object valor) {
+        this.valor = valor;
+    }
     
-    public String getValor() {
-        return Valor;
-    }
-
-    public void setValor(String valor) {
-        this.Valor = valor;
-    }
-
-    public int getFila() {
-        return fila;
-    }
-
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
-
-    public int getColumna() {
-        return columna;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
 }
