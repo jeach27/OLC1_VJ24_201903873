@@ -12,6 +12,7 @@ import Objetos.*;
  * @author jeach
  */
 public class Asignacion extends Instrucciones {
+    private String Mutabilidad;
     private String id;
     private Instrucciones exp;
 

@@ -13,18 +13,32 @@ public class Generador {
     
     public static void main(String[] args) {
         generarCompilador();
-    }
-    
-    
-    private static void generarCompilador() {
-        
-        try {
+    }                        
+
+    public static void generarCompilador() {
+        try{
             String ruta = "src/Analizadores/";
-            String Flex[] = {ruta + "Lexico.jflex", "-d", ruta};
-            jflex.Main.generate(Flex);
-            String Cup[] = {"-destdir", ruta, "-parser", "parser", ruta + "Sintactico.cup"};
+            /*
+                ruta -> ruta del los archivos
+                -d -> ruta donde se genera la salida
+                ruta salida
+            */ 
+
+           String Flex[] = {ruta + "Lexico.jflex", "-d", ruta};
+           jflex.Main.generate(Flex);
+
+           /*
+            -destdir indica la ruta donde se generara la salida
+            ruta de salida
+            -parser indican el nombre del archivo
+            parser
+            ruta del archivo cup
+           */
+
+          String Cup[] = { "-destdir", ruta, "-parser", "parser", ruta + "Sintactico.cup" };
+
             java_cup.Main.main(Cup);
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
         }
     }

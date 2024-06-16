@@ -37,7 +37,7 @@ public class Relacionales extends Instrucciones{
 
         return switch (relacional) {
             case IGUALACION ->
-                this.equals(condIzq, condDer);
+                this.Igualacion(condIzq, condDer);
             case MENOR ->
                 this.menor(condIzq, condDer);
             default ->
@@ -45,7 +45,7 @@ public class Relacionales extends Instrucciones{
         };
     }
 
-    public Object equals(Object comp1, Object comp2) {
+    public Object Igualacion(Object comp1, Object comp2) {
         var comparando1 = this.cond1.tipo.getTipo();
         var comparando2 = this.cond2.tipo.getTipo();
 

@@ -12,13 +12,15 @@ import Objetos.*;
  * @author jeach
  */
 public class Declaracion extends Instrucciones {
+    public String Mutabilidad;
     public String identificador;
     public Instrucciones valor;
 
-    public Declaracion(String identificador, Instrucciones valor, Tipo tipo, int linea, int col) {
+    public Declaracion(String Mutabilidad, String identificador, Instrucciones valor, Tipo tipo, int linea, int col) {
         super(tipo, linea, col);
         this.identificador = identificador;
         this.valor = valor;
+        this.Mutabilidad = Mutabilidad;
     }
 
     @Override

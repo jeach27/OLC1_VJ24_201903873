@@ -8,61 +8,67 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PRif = 29;
-  public static final int PRbreak = 35;
-  public static final int PRtrue = 25;
+  public static final int PRif = 35;
+  public static final int PRbreak = 41;
+  public static final int PRtrue = 31;
   public static final int PuntoComa = 7;
-  public static final int PRdouble = 23;
-  public static final int PRvoid = 43;
+  public static final int negacionUnario = 21;
+  public static final int PRdouble = 29;
+  public static final int PRvoid = 49;
   public static final int acentoPotencia = 10;
-  public static final int PRwhile = 32;
-  public static final int doublee = 51;
+  public static final int PRwhile = 38;
+  public static final int doublee = 57;
   public static final int Asterisco = 19;
-  public static final int PRprintln = 44;
-  public static final int PRappend = 40;
-  public static final int PRelse = 30;
-  public static final int PRvar = 20;
-  public static final int PRlist = 39;
-  public static final int PRfalse = 26;
-  public static final int PRreturn = 37;
-  public static final int PRround = 45;
+  public static final int PRprintln = 50;
+  public static final int PRappend = 46;
+  public static final int PRelse = 36;
+  public static final int PRvar = 26;
+  public static final int SYMOR = 15;
+  public static final int PRlist = 45;
+  public static final int PRfalse = 32;
+  public static final int menorIgual = 24;
+  public static final int PRreturn = 43;
+  public static final int igualacion = 22;
+  public static final int PRround = 51;
+  public static final int SYMNOT = 16;
+  public static final int SYMAND = 14;
   public static final int AbreP = 12;
   public static final int menor = 4;
   public static final int Diagonal = 17;
-  public static final int PRint = 22;
+  public static final int PRint = 28;
   public static final int EOF = 0;
+  public static final int ident = 58;
   public static final int DosPuntos = 2;
-  public static final int PRconst = 21;
+  public static final int PRconst = 27;
+  public static final int mayorIgual = 25;
+  public static final int PRfor = 39;
   public static final int error = 1;
-  public static final int PRfor = 33;
-  public static final int PRdo = 34;
+  public static final int PRdo = 40;
   public static final int mayor = 5;
-  public static final int entero = 54;
+  public static final int entero = 60;
   public static final int AbreC = 8;
-  public static final int PRchar = 27;
-  public static final int PRfind = 48;
-  public static final int PRtoString = 47;
-  public static final int id = 52;
-  public static final int PRmatch = 31;
-  public static final int SymOR = 15;
-  public static final int PRcontinue = 36;
-  public static final int PRstring = 28;
-  public static final int SymAND = 14;
-  public static final int SymNOT = 16;
-  public static final int PRstruct = 42;
-  public static final int PRnew = 38;
+  public static final int PRchar = 33;
+  public static final int PRfind = 54;
+  public static final int PRtoString = 53;
+  public static final int PRmatch = 37;
+  public static final int potencia = 20;
+  public static final int Diferencia = 23;
+  public static final int PRcontinue = 42;
+  public static final int PRstring = 34;
+  public static final int PRstruct = 48;
+  public static final int PRnew = 44;
   public static final int Resta = 6;
   public static final int CierraP = 13;
   public static final int Porcentaje = 11;
-  public static final int PRlength = 46;
-  public static final int PRbool = 24;
-  public static final int character = 53;
+  public static final int PRlength = 52;
+  public static final int PRbool = 30;
+  public static final int character = 59;
   public static final int Suma = 18;
   public static final int Igual = 3;
   public static final int CierraC = 9;
-  public static final int PRstartWith = 49;
-  public static final int cadena = 50;
-  public static final int PRremove = 41;
+  public static final int PRstartWith = 55;
+  public static final int cadena = 56;
+  public static final int PRremove = 47;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -78,12 +84,18 @@ public class sym {
   "Porcentaje",
   "AbreP",
   "CierraP",
-  "SymAND",
-  "SymOR",
-  "SymNOT",
+  "SYMAND",
+  "SYMOR",
+  "SYMNOT",
   "Diagonal",
   "Suma",
   "Asterisco",
+  "potencia",
+  "negacionUnario",
+  "igualacion",
+  "Diferencia",
+  "menorIgual",
+  "mayorIgual",
   "PRvar",
   "PRconst",
   "PRint",
@@ -116,7 +128,7 @@ public class sym {
   "PRstartWith",
   "cadena",
   "doublee",
-  "id",
+  "ident",
   "character",
   "entero"
   };

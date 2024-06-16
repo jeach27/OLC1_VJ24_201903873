@@ -23,11 +23,11 @@ public class Errores {
     }
     
     public void SendError(){
-        Principal.Prints.add("Hubo un error de  tipo" + tipo + "No se esparaba el caracter" + caracter + "En la fila" + fila + "En la columna" + columna);
-        System.out.println("Hubo un error de  tipo" + tipo);
-        System.out.println("No se esparaba el caracter" + caracter);
-        System.out.println("En la fila" + fila);
-        System.out.println("En la columna" + columna);
+        Principal.Prints.add("Hubo un error de  tipo" + tipo + "No se esparaba el caracter" +
+                caracter + "En la fila" + fila + "En la columna" + columna);
+        System.out.println("Hubo un error de  tipo" + tipo + "No se esparaba el caracter" + 
+                caracter + "En la fila" + fila + "En la columna" + columna);
+        
     }
 
     public String getTipo() {

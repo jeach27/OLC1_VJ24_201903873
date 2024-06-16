@@ -20,8 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import Errores.Errores;
-import Objetos.Simbolo;
-import Objetos.Token;
+import Objetos.*;
+import Instruccions.*;
+import java.awt.Desktop;
+import java.io.PrintWriter;
+import java.util.LinkedList;
 
 /**
  *
@@ -29,10 +32,10 @@ import Objetos.Token;
  */
 public class Principal extends javax.swing.JFrame {
     
-    public static ArrayList<Errores> ListaErrores = new ArrayList<>();
+    public static LinkedList<Errores> listaErrores = new LinkedList<>();
     public static ArrayList<Token> ListaTokens = new ArrayList<>();
     public static ArrayList<Simbolo> ListaSimbolos = new ArrayList<>();
-    
+
     public static ArrayList<String> Prints = new ArrayList<>();
     /**
      * Creates new form Principal
@@ -206,6 +209,11 @@ public class Principal extends javax.swing.JFrame {
         MenuReportes.add(ReporteAST);
 
         ReporteTablaSimbolo.setText("Tabla Simbolos");
+        ReporteTablaSimbolo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReporteTablaSimboloActionPerformed(evt);
+            }
+        });
         MenuReportes.add(ReporteTablaSimbolo);
 
         jMenuBar2.add(MenuReportes);
@@ -265,11 +273,113 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_ArchivoNuevoActionPerformed
-
+    //Para el reporte de Errores
     private void ReporteErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReporteErroresActionPerformed
-        // TODO add your handling code here:
+        try {
+            generarReporteErrores();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }//GEN-LAST:event_ReporteErroresActionPerformed
     
+    public static void generarReporteErrores() throws IOException{
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            String path = "ReporteErrores.html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            //comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>REPORTE DE ERRORES"
+                    + "</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>REPORTE DE ERRORES</h1>");
+            pw.println("<br></br>");
+            pw.println("<table border=1>");
+            pw.println("<tr>");
+            pw.println("<td>NO.</td>");
+            pw.println("<td>TIPO</td>");
+            pw.println("<td>DESCRIPCION</td>");
+            pw.println("<td>FILA</td>");
+            pw.println("<td>COLUMNA</td>");
+            pw.println("</tr>");
+            for (int i = 0; i < listaErrores.size(); i++) {
+                pw.println("<tr>");
+                pw.println("<td>" + i + "</td>");
+                pw.println("<td>" + listaErrores.get(i).getTipo() + "</td>");
+                pw.println("<td>" + listaErrores.get(i).getCaracter() + "</td>");
+                pw.println("<td>" + listaErrores.get(i).getFila() + "</td>");
+                pw.println("<td>" + listaErrores.get(i).getColumna() + "</td>");
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+        } catch (Exception e) {
+        } finally {
+            if (null != fichero) {
+                fichero.close();
+            }
+        }
+    }
+    
+    public static void generarReporteSimbolos() throws IOException{
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            String path = "TablaSimbolos.html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            //comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>TABLA DE SIMBOLOS"
+                    + "</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>TABLA DE SIMBOLOS</h1>");
+            pw.println("<br></br>");
+            pw.println("<table border=1>");
+            pw.println("<tr>");
+            pw.println("<td>NO.</td>");
+            pw.println("<td>NOMBRE_ID</td>");
+            pw.println("<td>TIPO</td>");
+            pw.println("<td>VALOR</td>");
+            pw.println("<td>ENTORNO</td>");
+            pw.println("<td>FILA</td>");
+            pw.println("<td>COLUMNA</td>");
+            pw.println("</tr>");
+            for (int i = 0; i < ListaSimbolos.size(); i++) {
+                pw.println("<tr>");
+                pw.println("<td>" + i + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getTipo() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getTipo() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getValor() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getValor() + "</td>");
+                pw.println("<td>" + "Aqui va fila" + "</td>");
+                pw.println("<td>" + "Aqui va columna" + "</td>");
+                pw.println("</tr>");
+            }
+            pw.println("</table>");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+        } catch (Exception e) {
+        } finally {
+            if (null != fichero) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //Boton para Guardar Arhivo
     private void ArchivoGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ArchivoGuardarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -338,7 +448,7 @@ public class Principal extends javax.swing.JFrame {
     private void BotonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEjecutarActionPerformed
         try{
             Component selectedComponent = PanelPestañas.getSelectedComponent();
-            System.out.println("HOLA");
+            
             // Check if the selected component is a JPanel
             if (selectedComponent instanceof JScrollPane) {
                 JTextArea selectedTextArea = (JTextArea) ((JScrollPane) selectedComponent).getViewport().getView();
@@ -346,12 +456,45 @@ public class Principal extends javax.swing.JFrame {
                 scanner sintac = new scanner(new BufferedReader(new StringReader(selectedTextArea.getText())));
                 parser par = new parser(sintac);
                 var result = par.parse();  
+                
+                var ast = new Arbol((LinkedList<Instrucciones>) result.value);
+                var tabla = new tablaSimbolos();
+                tabla.setNombre("GLOBAL");
+                ast.setConsola("");
+                
+                listaErrores.addAll(sintac.listaErrores);
+                listaErrores.addAll(par.listaErrores);
+                
+                for (var a : ast.getInstrucciones()) {
+                if (a == null) {
+                    continue;
+                    }
+
+                var res = a.interpretar(ast, tabla);
+                if (res instanceof Errores) {
+                    listaErrores.add((Errores) res);
+                    }
+                }
+                Consola.setText(ast.getConsola());
+                for (var i : listaErrores) {
+                System.out.println(i);
+                }
+                
+                
             }
   
         }catch(Exception e){
             System.out.println("Error en parser");
         }
     }//GEN-LAST:event_BotonEjecutarActionPerformed
+
+    private void ReporteTablaSimboloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReporteTablaSimboloActionPerformed
+        try {
+            generarReporteSimbolos();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_ReporteTablaSimboloActionPerformed
 
     /**
      * @param args the command line arguments

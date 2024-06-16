@@ -21,16 +21,20 @@ parser code
     scanner s;
     parser(scanner s){this.s = s;}
 
+    public LinkedList<Errores> listaErrores = new LinkedList<>();
+    
     public void syntax_error(Symbol s){
-        System.out.println("Error Sintactico Recuperable");
-        Errores nuevo = new Errores("Error Sintactico Recuperable", s.value.toString(), s.right+1, s.left+1);
-        Principal.ListaErrores.add(nuevo);
+        listaErrores.add(new Errores("SINTACTICO RECUPERABLE",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
     }
 
-    public void unrecovered_syntax_error(Symbol s){
-        System.out.println("Error Sintactico no recuperable");
-        Errores nuevo = new Errores("Error Sintactico no recuperable", s.value.toString(), s.right+1, s.left+1);
-        Principal.ListaErrores.add(nuevo);
+    public void unrecovered_syntax_error (Symbol s){
+        listaErrores.add(new Errores("SINTACTICO NO RECUPERABLE",
+                        "No se esperaba el componente "+s.value,
+                        s.left,
+                        s.right));
     }
 :}
 
@@ -38,29 +42,19 @@ action code
 {:
 :}
 
-terminal DosPuntos, Igual, menor, mayor, Resta, PuntoComa, AbreC, CierraC, acentoPotencia, Porcentaje, AbreP, CierraP, SymAND, SymOR, SymNOT, Diagonal, Suma, Asterisco;
+terminal DosPuntos, Igual, menor, mayor, Resta, PuntoComa, AbreC, CierraC, acentoPotencia, Porcentaje;
+terminal AbreP, CierraP, SYMAND, SYMOR, SYMNOT, Diagonal, Suma, Asterisco;
 terminal potencia, negacionUnario, igualacion, Diferencia, menorIgual, mayorIgual;
 terminal PRvar, PRconst, PRint, PRdouble, PRbool, PRtrue, PRfalse, PRchar, PRstring, PRif, PRelse, PRmatch, PRwhile, PRfor, PRdo, PRbreak; 
 terminal PRcontinue, PRreturn, PRnew, PRlist, PRappend, PRremove, PRstruct, PRvoid, PRprintln, PRround, PRlength, PRtoString, PRfind, PRstartWith;
-terminal cadena, doublee, id, character, entero;
+terminal cadena, doublee, ident, character, entero;
 
 nonterminal LinkedList<Instrucciones> INICIO, INSTRUCCIONES;
 nonterminal Instrucciones INSTRUCCION;
 nonterminal Instrucciones IMPRESION, DECLARACION, ASIGNACION;
-nonterminal Instrucciones BREAKK;
+nonterminal Instrucciones BREAK;
 nonterminal Tipo TIPOS;
-
 nonterminal Instrucciones EXPRESION;
-
-precedence right negacionUnario;
-precedence potencia;
-precendece left Asterisco, Diagonal;
-precedence left Suma, Resta;
-precedence left igualacion, Diferencia, menor, mayor, menorIgual, mayorIgual;
-precedence right SymNOT;
-precedence left acentoPotencia;
-precedence left SymAND;
-precedence left SymOR;
 
 start with INICIO;
 
@@ -74,17 +68,20 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b     {: RESULT = a; RESULT.add(b)
 INSTRUCCION ::= IMPRESION: a        {:   RESULT=a;   :}
               | DECLARACION:a       {:   RESULT=a;   :}
               | ASIGNACION:a        {:   RESULT=a;   :}
-              | BREAKK:a            {:   RESULT=a;   :}
+              | BREAK:a            {:   RESULT=a;   :}
               | error PuntoComa
 ;
 
-IMPRESION ::= IMPRIMIR PAR1 EXPRESION:a PAR2 FINCADENA      {:   RESULT = new Print(a, aleft, aright);   :}
+IMPRESION ::= PRprintln AbreP EXPRESION:a CierraP PuntoComa      {:   RESULT = new Println(a, aleft, aright);   :}
 ;
 
-DECLARACION ::= TIPOS:a ID:b IGUAL EXPRESION:c FINCADENA    {:   RESULT = new Declaracion(b, c, a, aleft, aright);   :}
+DECLARACION ::= PRvar ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:   RESULT = new Declaracion("var",(String) b, c, a, aleft, aright);   :}
+              | PRvar ident:b DosPuntos TIPOS:a PuntoComa                      {:  RESULT = new Declaracion("var",(String) b, null, a, aleft, aright);   :}
+              | PRconst ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:   RESULT = new Declaracion("const",(String) b, c, a, aleft, aright);   :}
+              | PRconst ident:b DosPuntos TIPOS:a PuntoComa                      {:   RESULT = new Declaracion("const",(String) b, null, a, aleft, aright);   :}
 ;
 
-ASIGNACION ::= ID:a IGUAL EXPRESION:b FINCADENA  {:   RESULT=new AsignacionVar(a, b, aleft, aright);  :}
+ASIGNACION ::= ident:a Igual EXPRESION:b PuntoComa  {:   RESULT = new Asignacion((String) a, b, aleft, aright);  :}
 ;
 
 TIPOS ::= PRint       {:   RESULT=new Tipo(tipoDato.ENTERO);   :}
@@ -94,15 +91,11 @@ TIPOS ::= PRint       {:   RESULT=new Tipo(tipoDato.ENTERO);   :}
         | PRchar      {:   RESULT=new Tipo(tipoDato.CARACTER);   :}
 ;
 
-EXPRESION ::= MENOS EXPRESION:a             {:   RESULT = new Aritmeticas(a, OperadoresAritmeticos.NEGACION, aleft, aright);   :} %prec UMENOS
-            | EXPRESION:a MAS EXPRESION:b   {:   RESULT = new Aritmeticas(a, b, OperadoresAritmeticos.SUMA, aleft, aright);   :}
-            | EXPRESION:a IGUAL IGUAL EXPRESION:b {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.EQUALS, aleft, aright);    :}%prec EQUALS
-            | EXPRESION:a MENOR EXPRESION:b     {:    RESULT = new Relacionales(a, b, OperadoresRelacionales.MENOR, aleft, aright);    :}
-            | ENTERO:a      {:   RESULT = new Nativo(Integer.parseInt(a), new Tipo(tipoDato.ENTERO), aleft, aright );   :}
-            | DECIMAL:a     {:   RESULT = new Nativo(new Double(a), new Tipo(tipoDato.DECIMAL), aleft, aright );   :}
-            | CADENA:a      {:   RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright );   :}
-            | TRUE:a        {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
-            | FALSE:a       {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
-            | ID:a          {:   RESULT = new AccesoVar(a, aleft, aright);   :}
-            | PAR1 EXPRESION:a PAR2     {:   RESULT = a;   :}
+EXPRESION ::= entero:a                              {:   RESULT = new Nativo(Integer.parseInt((String) a), new Tipo(tipoDato.ENTERO), aleft, aright );   :}
+            | doublee:a                             {:   RESULT = new Nativo(new Double((double) a), new Tipo(tipoDato.DECIMAL), aleft, aright );   :}
+            | cadena:a                              {:   RESULT = new Nativo(a, new Tipo(tipoDato.CADENA), aleft, aright );   :}
+            | PRtrue:a                              {:   RESULT = new Nativo(true, new Tipo(tipoDato.BOOLEANO), aleft, aright );   :}
+            | PRfalse:a                             {:   RESULT = new Nativo(false, new Tipo(tipoDato.BOOLEANO), aleft, aright );    :}
+            | ident:a                               {:   RESULT = new AccesoVAR((String) a, aleft, aright);   :}
+            | AbreP EXPRESION:a CierraP             {:   RESULT = a;   :}
 ;
