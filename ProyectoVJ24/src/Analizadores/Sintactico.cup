@@ -74,11 +74,15 @@ INSTRUCCION ::= IMPRESION: a        {:   RESULT=a;   :}
 
 IMPRESION ::= PRprintln AbreP EXPRESION:a CierraP PuntoComa      {:   RESULT = new Println(a, aleft, aright);   :}
 ;
-
-DECLARACION ::= PRvar ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:   RESULT = new Declaracion("var",(String) b, c, a, aleft, aright);   :}
-              | PRvar ident:b DosPuntos TIPOS:a PuntoComa                      {:  RESULT = new Declaracion("var",(String) b, null, a, aleft, aright);   :}
-              | PRconst ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:   RESULT = new Declaracion("const",(String) b, c, a, aleft, aright);   :}
-              | PRconst ident:b DosPuntos TIPOS:a PuntoComa                      {:   RESULT = new Declaracion("const",(String) b, null, a, aleft, aright);   :}
+                                                                                   
+DECLARACION ::= PRvar ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:  SimboloTabla nuevo = new SimboloTabla((String) b, "VAR" ,c , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo); RESULT = new Declaracion("var",(String) b, c, a, aleft, aright);   :}
+              | PRvar ident:b DosPuntos TIPOS:a PuntoComa                      {:  SimboloTabla nuevo = new SimboloTabla((String) b, "VAR" ,null , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("var",(String) b, null, a, aleft, aright);   :}
+              | PRconst ident:b DosPuntos TIPOS:a Igual EXPRESION:c PuntoComa    {:   SimboloTabla nuevo = new SimboloTabla((String) b, "CONST" ,c , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("const",(String) b, c, a, aleft, aright);   :}
+              | PRconst ident:b DosPuntos TIPOS:a PuntoComa                      {:   SimboloTabla nuevo = new SimboloTabla((String) b, "CONST" ,null , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("const",(String) b, null, a, aleft, aright);   :}
 ;
 
 ASIGNACION ::= ident:a Igual EXPRESION:b PuntoComa  {:   RESULT = new Asignacion((String) a, b, aleft, aright);  :}

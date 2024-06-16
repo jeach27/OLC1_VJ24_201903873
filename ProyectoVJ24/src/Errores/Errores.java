@@ -22,13 +22,6 @@ public class Errores {
         this.columna = columna;
     }
     
-    public void SendError(){
-        Principal.Prints.add("Hubo un error de  tipo" + tipo + "No se esparaba el caracter" +
-                caracter + "En la fila" + fila + "En la columna" + columna);
-        System.out.println("Hubo un error de  tipo" + tipo + "No se esparaba el caracter" + 
-                caracter + "En la fila" + fila + "En la columna" + columna);
-        
-    }
 
     public String getTipo() {
         return tipo;

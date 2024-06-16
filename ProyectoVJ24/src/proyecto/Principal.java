@@ -33,10 +33,8 @@ import java.util.LinkedList;
 public class Principal extends javax.swing.JFrame {
     
     public static LinkedList<Errores> listaErrores = new LinkedList<>();
-    public static ArrayList<Token> ListaTokens = new ArrayList<>();
-    public static ArrayList<Simbolo> ListaSimbolos = new ArrayList<>();
+    public static ArrayList<SimboloTabla> ListaSimbolos;
 
-    public static ArrayList<String> Prints = new ArrayList<>();
     /**
      * Creates new form Principal
      */
@@ -355,12 +353,12 @@ public class Principal extends javax.swing.JFrame {
             for (int i = 0; i < ListaSimbolos.size(); i++) {
                 pw.println("<tr>");
                 pw.println("<td>" + i + "</td>");
-                pw.println("<td>" + ListaSimbolos.get(i).getTipo() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getIdentificador() + "</td>");
                 pw.println("<td>" + ListaSimbolos.get(i).getTipo() + "</td>");
                 pw.println("<td>" + ListaSimbolos.get(i).getValor() + "</td>");
-                pw.println("<td>" + ListaSimbolos.get(i).getValor() + "</td>");
-                pw.println("<td>" + "Aqui va fila" + "</td>");
-                pw.println("<td>" + "Aqui va columna" + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getEntorno() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getFila() + "</td>");
+                pw.println("<td>" + ListaSimbolos.get(i).getColumna() + "</td>");
                 pw.println("</tr>");
             }
             pw.println("</table>");
@@ -448,7 +446,7 @@ public class Principal extends javax.swing.JFrame {
     private void BotonEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonEjecutarActionPerformed
         try{
             Component selectedComponent = PanelPestañas.getSelectedComponent();
-            
+            ListaSimbolos = new ArrayList<>();
             // Check if the selected component is a JPanel
             if (selectedComponent instanceof JScrollPane) {
                 JTextArea selectedTextArea = (JTextArea) ((JScrollPane) selectedComponent).getViewport().getView();

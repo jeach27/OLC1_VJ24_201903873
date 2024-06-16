@@ -26,6 +26,7 @@ public class Asignacion extends Instrucciones {
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         //variable exista
         var variable = tabla.getVariable(id);
+        System.out.println(variable);
         if (variable == null) {
             return new Errores("SEMANTICO", "Variable no exitente",
                     this.linea, this.col);

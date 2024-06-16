@@ -6,6 +6,8 @@ package Instruccions;
 
 import Errores.Errores;
 import Objetos.*;
+import Expresiones.*;
+import proyecto.Principal;
 
 /**
  *
@@ -15,21 +17,28 @@ public class Declaracion extends Instrucciones {
     public String Mutabilidad;
     public String identificador;
     public Instrucciones valor;
+    public String fila;
+    public String Columna;
+    
 
     public Declaracion(String Mutabilidad, String identificador, Instrucciones valor, Tipo tipo, int linea, int col) {
         super(tipo, linea, col);
         this.identificador = identificador;
         this.valor = valor;
         this.Mutabilidad = Mutabilidad;
+        this.fila = String.valueOf(linea);
+        this.Columna = String.valueOf(col);
+        
     }
 
     @Override
     public Object interpretar(Arbol arbol, tablaSimbolos tabla) {
         // interpretado la expresion
         var valorInterpretado = this.valor.interpretar(arbol, tabla);
-
+        
         //validamos si es error
         if (valorInterpretado instanceof Errores) {
+            
             return valorInterpretado;
         }
 
@@ -39,7 +48,7 @@ public class Declaracion extends Instrucciones {
         }
 
         Simbolo s = new Simbolo(this.tipo, this.identificador, valorInterpretado);
-
+        
         boolean creacion = tabla.setVariable(s);
         if (!creacion) {
             return new Errores("SEMANTICO", "Variable ya existente", this.linea, this.col);

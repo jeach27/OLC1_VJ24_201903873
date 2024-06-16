@@ -344,7 +344,8 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Instrucciones c = (Instrucciones)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		   RESULT = new Declaracion("var",(String) b, c, a, aleft, aright);   
+		  SimboloTabla nuevo = new SimboloTabla((String) b, "VAR" ,c , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo); RESULT = new Declaracion("var",(String) b, c, a, aleft, aright);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -359,7 +360,8 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Tipo a = (Tipo)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		  RESULT = new Declaracion("var",(String) b, null, a, aleft, aright);   
+		  SimboloTabla nuevo = new SimboloTabla((String) b, "VAR" ,null , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("var",(String) b, null, a, aleft, aright);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -377,7 +379,8 @@ class CUP$parser$actions {
 		int cleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int cright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Instrucciones c = (Instrucciones)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		   RESULT = new Declaracion("const",(String) b, c, a, aleft, aright);   
+		   SimboloTabla nuevo = new SimboloTabla((String) b, "CONST" ,c , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("const",(String) b, c, a, aleft, aright);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -392,7 +395,8 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Tipo a = (Tipo)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		   RESULT = new Declaracion("const",(String) b, null, a, aleft, aright);   
+		   SimboloTabla nuevo = new SimboloTabla((String) b, "CONST" ,null , "FULL", aleft, aright);
+                                                                                    Principal.ListaSimbolos.add(nuevo);RESULT = new Declaracion("const",(String) b, null, a, aleft, aright);   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

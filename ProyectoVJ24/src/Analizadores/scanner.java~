@@ -909,6 +909,7 @@ public class scanner implements java_cup.runtime.Scanner {
           case 1:
             { listaErrores.add(new Errores("LEXICO","El caracter "+
                 yytext()+" NO pertenece al lenguaje", yyline, yycolumn));
+                System.out.println(yytext());
             }
           // fall through
           case 56: break;
